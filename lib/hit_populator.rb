@@ -25,9 +25,7 @@ class HitPopulator
   end
 
   def self.random_time
-    st = DATE_RANGE.first.to_time.to_f
-    et = DATE_RANGE.last.to_time.to_f
-    Time.at((et - st)*rand + st.to_f)
+    RandomTime.between(DATE_RANGE.first.to_time, DATE_RANGE.last.to_time)
   end
 
 
