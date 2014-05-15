@@ -1,1 +1,16 @@
-%h1 Hello World
+%h1 Mabouya
+
+%div{'ng-controller' => 'TopUrlsController'}
+  %h2 Top Pages
+
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th Day
+        %th Page
+        %th Hits
+    %tbody
+      %tr{'ng-repeat' => 'url in topUrls'}
+        %td {{url.date}}
+        %td <a href="{{url.url}}">{{url.url}}</a>
+        %td {{url.visits}}

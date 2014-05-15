@@ -12,3 +12,10 @@
 //
 //= require angular
 //= require_tree .
+
+
+var app = angular.module('mabouya', ['mabouya.controllers']);
+
+
+
+
