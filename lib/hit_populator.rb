@@ -14,12 +14,33 @@ class HitPopulator
                     'http://developer.apple.com',
                     nil]
 
-  def self.populate_database(rows = 1000)
-    Hit.db.transaction do
-      rows.times do
-        time =
-        Hit.new(url: BASE_URLS.sample, referrer: BASE_REFERRERS.sample, created_at: random_time).save
+  # This method will truncate the hits table and regenerate it
+  def self.populate_database(rows = 1000000)
+    batch_size = [rows, 5000].min
+    number_batches = rows / batch_size
+
+    values = {}
+    id = 0
+
+    Hit.truncate
+    number_batches.times do |batch|
+      data = []
+      batch_size.times do |t|
+
+        id += 1
+
+        # this order is important since the Digest Hash generated is dependent on the hash insertion order
+        row = [id, BASE_URLS.sample, BASE_REFERRERS.sample, random_time]
+        values[:id] = row[0]
+        values[:url] = row[1]
+        values[:referrer] = row[2]
+        values[:created_at] = row[3]
+
+        row << Hit.hash_hash(values)
+        data << row
       end
+
+      Hit.import([:id, :url, :referrer, :created_at, :hash], data)
     end
 
   end
