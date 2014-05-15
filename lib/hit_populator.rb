@@ -28,9 +28,10 @@ class HitPopulator
       batch_size.times do |t|
 
         id += 1
+        time = random_time
+        row = [id, BASE_URLS.sample, BASE_REFERRERS.sample, time, time.to_date]
 
         # this order is important since the Digest Hash generated is dependent on the hash insertion order
-        row = [id, BASE_URLS.sample, BASE_REFERRERS.sample, random_time]
         values[:id] = row[0]
         values[:url] = row[1]
         values[:referrer] = row[2]
@@ -40,7 +41,7 @@ class HitPopulator
         data << row
       end
 
-      Hit.import([:id, :url, :referrer, :created_at, :hash], data)
+      Hit.import([:id, :url, :referrer, :created_at, :date, :hash], data)
     end
 
   end

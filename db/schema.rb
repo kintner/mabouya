@@ -6,6 +6,7 @@ Sequel.migration do
       column :referrer, "varchar(4096)"
       column :created_at, "datetime"
       column :hash, "varchar(255)", :null=>false
+      column :date, "date"
     end
     
     create_table(:schema_migrations) do

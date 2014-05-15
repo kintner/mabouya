@@ -7,6 +7,7 @@ Sequel.migration do
       String :referrer, size:4096
       Time :created_at
       String :hash, null: false
+      Date :date
 
     end
 
