@@ -33,6 +33,7 @@ class Hit < Sequel::Model
     data = Hit.db["SELECT url, count(url) as visits, date FROM hits
             WHERE date BETWEEN ? and ?
             GROUP BY url, date order by date, visits", start_date, end_date].to_a.group_by {|r| r[:date]}
+    # only return the attributes that we care about
     data.values.each {|arr| arr.map! {|hsh| hsh.slice(:url, :visits)}}
 
     data
@@ -43,6 +44,7 @@ class Hit < Sequel::Model
     result = {}
     top_urls.each do |date, urls|
       result[date] ||= []
+      # get the top 10 pages for this date and find their referrers
       urls.sort {|x,y| x[:visits] <=> y[:visits]}[0..9].each do |url|
         referrers = Hit.db["SELECT referrer, count(referrer) as visits from hits where date = ? and url = ? group by referrer order by count(referrer) desc limit 5", date, url[:url]].to_a.map {|row| {url: row[:referrer], visits: row[:visits]}}
         record = {url:url[:url], visits: url[:visits], referrers: referrers }
