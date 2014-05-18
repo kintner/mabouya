@@ -1,5 +1,5 @@
 class HitPopulator
- DATE_RANGE = (Date.parse('2014-01-01')..Date.parse('2014-01-10')).to_a
+ DATE_RANGE = ((Date.parse('2014-05-01')..Date.parse('2014-06-01'))).to_a
 
  BASE_URLS = ['http://apple.com',
              'https://apple.com',

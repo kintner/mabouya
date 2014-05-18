@@ -11,7 +11,9 @@ class StatsController < ApplicationController
   private
 
   def configure_dates
-    @start_date, @end_date = Date.parse('2014-01-01'), Date.parse('2014-01-05')
+    # should show stats for the past 5 days
+    @start_date = Date.today - 5
+    @end_date = Date.today - 1
   end
 
 
