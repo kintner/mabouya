@@ -1,16 +1,48 @@
 %h1 Mabouya
 
-%div{'ng-controller' => 'TopUrlsController'}
-  %h2 Top Pages
+%ul.nav.nav-tabs{style: 'margin-top:1.5em'}
+  %li.active
+    %a{href: '#TopPages', 'data-toggle' => 'tab'} Top Pages
+  %li
+    %a{href: '#TopReferrers', 'data-toggle' => 'tab'} Top Referrers
 
-  %table.table.table-striped.table-bordered
-    %thead
-      %tr
-        %th Day
-        %th Page
-        %th Hits
-    %tbody
-      %tr{'ng-repeat' => 'url in topUrls'}
-        %td {{url.date}}
-        %td <a href="{{url.url}}">{{url.url}}</a>
-        %td {{url.visits}}
+.tab-content
+  #TopPages.tab-pane.active{'ng-controller' => 'TopUrlsController'}
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %th Day
+          %th Page
+          %th Hits
+      %tbody
+        %tbody{'ng-repeat' => '(day, urls) in topUrls'}
+          %tr{'ng-repeat' => 'url in urls'}
+            %td {{day}}
+            %td <a href="{{url.url}}">{{url.url}}</a>
+            %td {{url.visits}}
+
+
+  #TopReferrers.tab-pane{'ng-controller' => 'TopReferrersController'}
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %th Day
+          %th Page
+          %th Hits
+          %th Referrers
+      %tbody{'ng-repeat' => '(day, urls) in topReferrers'}
+        %tr{'ng-repeat' => 'url in urls'}
+          %td {{day}}
+          %td <a href="{{url.url}}">{{url.url}}</a>
+          %td {{url.visits}}
+          %td
+            %table.table.table-striped.table-compact
+              %tr{'ng-repeat' => 'row in url.referrers'}
+                %td
+                  .span{'ng-show' => 'row.url'}
+                    <a href="{{row.url}}">{{row.url}}</a>
+                  .span{'ng-hide' => 'row.url'}
+                    (null)
+                %td {{row.visits}}
+                %td
+
