@@ -17,7 +17,8 @@
       %tbody
         %tbody{'ng-repeat' => '(day, urls) in topUrls'}
           %tr{'ng-repeat' => 'url in urls'}
-            %td {{day}}
+
+            %td{rowspan: "{{urls.length}}", 'ng-if'=>"$index==0"} {{day}}
             %td <a href="{{url.url}}">{{url.url}}</a>
             %td {{url.visits}}
 
