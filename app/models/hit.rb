@@ -29,7 +29,7 @@ class Hit < Sequel::Model
 
 
 
-  def self.top_urls(start_date = Date.new(2014,01,01), end_date = Date.new(2014,1,5))
+  def self.top_urls(start_date, end_date)
     data = Hit.db["SELECT url, count(url) as visits, date FROM hits
             WHERE date BETWEEN ? and ?
             GROUP BY url, date order by date, visits", start_date, end_date].to_a.group_by {|r| r[:date]}
@@ -38,7 +38,7 @@ class Hit < Sequel::Model
     data
   end
 
-  def self.top_referrers(start_date = Date.new(2014,01,01), end_date = Date.new(2014,1,5))
+  def self.top_referrers(start_date, end_date)
     top_urls = top_urls(start_date, end_date)
     result = {}
     top_urls.each do |date, urls|
